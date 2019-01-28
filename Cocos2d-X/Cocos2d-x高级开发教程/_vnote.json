@@ -1,0 +1,80 @@
+{
+    "created_time": "2018-07-06T09:18:46Z",
+    "files": [
+        {
+            "attachment_folder": "",
+            "attachments": [
+            ],
+            "created_time": "2018-07-06T09:33:04Z",
+            "modified_time": "2018-07-06T09:35:14Z",
+            "name": "01 新建fishjoy工程.md"
+        },
+        {
+            "attachment_folder": "",
+            "attachments": [
+            ],
+            "created_time": "2018-07-06T09:56:28Z",
+            "modified_time": "2018-07-09T09:56:22Z",
+            "name": "02 Cocos基础概念.md"
+        },
+        {
+            "attachment_folder": "",
+            "attachments": [
+            ],
+            "created_time": "2018-07-09T09:56:57Z",
+            "modified_time": "2018-07-09T11:12:39Z",
+            "name": "03 Cocos2d-x代码风格.md"
+        },
+        {
+            "attachment_folder": "",
+            "attachments": [
+            ],
+            "created_time": "2018-07-10T03:28:46Z",
+            "modified_time": "2018-07-10T07:01:51Z",
+            "name": "04 导演、场景、层及精灵.md"
+        },
+        {
+            "attachment_folder": "",
+            "attachments": [
+            ],
+            "created_time": "2018-07-10T07:02:23Z",
+            "modified_time": "2018-07-10T08:09:22Z",
+            "name": "05 CCNode及坐标.md"
+        },
+        {
+            "attachment_folder": "",
+            "attachments": [
+            ],
+            "created_time": "2018-07-10T08:09:34Z",
+            "modified_time": "2018-07-10T08:09:44Z",
+            "name": "06 事件调度.md"
+        },
+        {
+            "attachment_folder": "",
+            "attachments": [
+            ],
+            "created_time": "2018-07-10T08:10:01Z",
+            "modified_time": "2018-07-10T08:28:35Z",
+            "name": "07 Cocos2dx 内置的常用层.md"
+        },
+        {
+            "attachment_folder": "",
+            "attachments": [
+            ],
+            "created_time": "2018-07-10T08:28:45Z",
+            "modified_time": "2018-07-10T10:57:07Z",
+            "name": "08 Cocos2dx调度原理.md"
+        },
+        {
+            "attachment_folder": "",
+            "attachments": [
+            ],
+            "created_time": "2018-07-11T01:07:36Z",
+            "modified_time": "2018-07-11T01:07:36Z",
+            "name": "09 动作.md"
+        }
+    ],
+    "sub_directories": [
+    ],
+    "version": "1"
+}
