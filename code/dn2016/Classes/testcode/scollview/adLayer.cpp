@@ -1,6 +1,16 @@
 #include "adLayer.h"
 
 
+void CAdLayer::runCase()
+{
+	this->setAnchorPoint(Vec2::ZERO);
+	this->setPosition(0, 0);
+	
+	this->addItem("ad/adpic1.png");
+	this->addItem("ad/adpic2.png");
+	this->showItems();
+}
+
 bool CAdLayer::init(CCSize size)
 {
 	if (!Layer::init())

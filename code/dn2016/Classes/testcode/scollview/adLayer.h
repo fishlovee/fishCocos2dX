@@ -3,6 +3,7 @@
 #include "cocos2d.h"
 #include "cocos-ext.h"
 #include <vector>
+#include "testcode/testdefs.h"
 //#include <GUI/CCScrollView/CCScrollView.h>
 
 USING_NS_CC;
@@ -14,6 +15,7 @@ using namespace std;
 class CAdLayer:public Layer, public ScrollViewDelegate
 {
 public:
+	void runCase();
 	bool init(CCSize size);
 	static CAdLayer * create(CCSize size =  CCSize(271,455));
 	void addItem(Sprite *item);
@@ -24,6 +26,8 @@ public:
 	void test1();
 	bool onTouchBegan(Touch *touch, Event *unused_event);
 	void onTouchCancelled(Touch *touch, Event *unused_event);
+
+	CREATE_TEST_FUNC(CAdLayer);
 protected:
 	void update(float delta);
 	CAdLayer();

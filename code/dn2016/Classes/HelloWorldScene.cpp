@@ -79,17 +79,19 @@ bool HelloWorld::init()
     this->addChild(label, 1);
 
     // add "HelloWorld" splash screen"
-	CAdLayer *pAd = CAdLayer::create();
-	pAd->setAnchorPoint(Vec2::ZERO);
-	pAd->setPosition(0,0);
-	//pAd->test1();
-	pAd->addItem("ad/adpic1.png");
-	pAd->addItem("ad/adpic2.png");
-	pAd->showItems();
+	//CAdLayer *pAd = CAdLayer::create();
+	//pAd->setAnchorPoint(Vec2::ZERO);
+	//pAd->setPosition(0,0);
+	////pAd->test1();
+	//pAd->addItem("ad/adpic1.png");
+	//pAd->addItem("ad/adpic2.png");
+	//pAd->showItems();
 	//auto ad1 = Sprite::create("ad/adpic1.png");
 	//ad1->setPosition(300, 300);
 	//this->addChild(ad1);
-	this->addChild(pAd);
+
+	CAdLayer::run(this);
+	//this->addChild(pAd);
     //////////////////////////////
     // 1. super init first
     //if ( !Layer::init() )
