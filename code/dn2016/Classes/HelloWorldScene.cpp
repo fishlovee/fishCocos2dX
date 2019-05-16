@@ -1,7 +1,7 @@
 #include "HelloWorldScene.h"
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
-#include "adLayer.h"
+#include "./testcode/scollview/adLayer.h"
 
 USING_NS_CC;
 
