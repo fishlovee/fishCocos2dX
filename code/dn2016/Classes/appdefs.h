@@ -54,6 +54,12 @@ USING_NS_CC;
 #define DX_PRINT 	DX_LOG_INFO
 
 
-
+template<typename T>
+bool isInRange(const T v, const T _min, const T _max)
+{
+	T beg = min(_min, _max);
+	T end = max(_min, _max);
+	return v >= beg && v <= end;
+}
 
 

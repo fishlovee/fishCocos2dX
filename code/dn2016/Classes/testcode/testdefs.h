@@ -1,5 +1,7 @@
 #pragma once
 
+#include "appdefs.h"
+
 #define CREATE_TEST_FUNC(_testClass) \
 	static void run(Node *_parent) \
 	{ \
