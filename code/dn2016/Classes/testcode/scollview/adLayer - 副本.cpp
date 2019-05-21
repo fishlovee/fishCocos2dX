@@ -1,16 +1,11 @@
 #include "adLayer.h"
 #include "dxutils.h"
-#include "ui/UIButton.h"
 
 
 #define AD_AUTO_MOVEPAGE_EVENT	"AD_AUTO_MOVEPAGE_EVENT"
 
 void CAdLayer::runCase()
 {
-	this->setShowLayerZoom(3.5f, 0.0f, nullptr);
-	this->enableShowLayerZoom(true);
-	//this->ShowLayer(); // 在此处调用和在onEnter中调用效果一样。
-
 	Vec2 orgPos = Director::getInstance()->getVisibleOrigin();
 	Size winSize = Director::getInstance()->getWinSize();
 	//this->setAnchorPoint(Vec2::ZERO);  继承于layer，设置anchor无效
@@ -21,13 +16,12 @@ void CAdLayer::runCase()
 	this->addItem("ad/adpic1.png");
 	this->showItems();
 	this->scheduleUpdate();
-
-	DX_LOG("adlayer is touchable:%s", this->isTouchEnabled()?"true":"false");
+	//this->moveToPage(2, 5);
 }
 
 bool CAdLayer::init(CCSize size)
 {
-	if (!DxLayer::init())
+	if (!Layer::init())
 	{
 		return false;
 	}
@@ -35,7 +29,7 @@ bool CAdLayer::init(CCSize size)
 	// 添加scrollview
 	do 
 	{
-		_container = DxLayer::create();
+		_container = Layer::create();
 		if (_container == nullptr)
 		{
 			break;
@@ -140,23 +134,9 @@ void CAdLayer::showItems()
 	//EventDispatcher *pDispatcher = CCDirector::getInstance()->getEventDispatcher();
 	//pDispatcher->addEventListenerWithSceneGraphPriority(oneTouch, this);
 
-	auto cclosebuttonb = ui::Button::create("img/guanbi.png");
-	auto closeCallback = [&](Ref * ref) {
-		//this->removeFromParentAndCleanup(true);
-		this->RemoveLayer(5.0f, 2.0f, nullptr);
-	};
-	cclosebuttonb->addClickEventListener(closeCallback);
-	cclosebuttonb->setPosition(Vec2(20, 20));
-	this->addChild(cclosebuttonb, 10);
-
-	this->autoMovePage();
-}
-
-void CAdLayer::autoMovePage()
-{
 	// C++11可以很方便的想lua一样写local函数了，爽！！！
 	auto autoMovePage = [&](float dx) {
-		if ( _spriteItems.size() == 1)
+		if (_isTouchAdPage || _spriteItems.size() == 1)
 		{
 			return;
 		}
@@ -201,15 +181,50 @@ void CAdLayer::autoMovePage()
 	// 可以指定调用次数的schedule原型如下：
 	// void schedule(const ccSchedulerFunc& callback, void *target, float interval, bool paused, const std::string& key);
 	// 第一个参数如下： typedef std::function<void(float)> ccSchedulerFunc;
-	this->schedule(autoMovePage, 5.0f, 1, 5.0f, AD_AUTO_MOVEPAGE_EVENT);
-	auto cclosebuttonb = ui::Button::create("img/guanbi.png");
-	auto closeCallback = [&](Ref * ref) {
-		//this->removeFromParentAndCleanup(true);
-		this->RemoveLayer(5.0f, 2.0f, nullptr);
-	};
-	cclosebuttonb->addClickEventListener(closeCallback);
-	cclosebuttonb->setPosition(Vec2(20, 20));
-	this->addChild(cclosebuttonb, 10);
+	this->schedule(autoMovePage, 5.0f, CC_REPEAT_FOREVER,5.0f, AD_AUTO_MOVEPAGE_EVENT);
+}
+
+void CAdLayer::autoMovePage(float dx)
+{
+	if (_isTouchAdPage || _spriteItems.size() == 1)
+	{
+		return;
+	}
+
+	switch (_emoveDir)
+	{
+	case CAdLayer::eMoveDirRight:
+	{
+		if (_curPageIndex == _spriteItems.size())
+		{
+			_emoveDir = eMoveDirLeft;
+			this->_targetPageIndex = _spriteItems.size() - 1;
+		}
+		else
+		{
+			this->_targetPageIndex = _curPageIndex + 1;
+		}
+		break;
+	}
+	case CAdLayer::eMoveDirLeft:
+	{
+		if (_curPageIndex == 1)
+		{
+			_emoveDir = eMoveDirRight;
+			this->_targetPageIndex = _curPageIndex + 1;
+		}
+		else
+		{
+			this->_targetPageIndex = _curPageIndex - 1;
+		}
+		break;
+	}
+	default:
+		this->_targetPageIndex = 1;
+		break;
+	}
+	
+	moveToPage(0.75f); // 
 }
 
 
@@ -261,31 +276,35 @@ bool CAdLayer::onTouchBegan(Touch *touch, Event *unused_event)
 {
 	auto target = unused_event->getCurrentTarget();
 	//Vec2 pos = target->convertToNodeSpace(touch->getLocation());
-	Vec2 pos = touch->getLocation();                                 // 返回的是在其父节点的相对坐标
-	auto box = this->boundingBox();									// 返回的是在气父节点的相对坐标组成的rect
+	Vec2 pos = touch->getLocation();
+	auto box = this->boundingBox();
 	//CCLOG("touchbegin:x = %f,y = %f", pos.x, pos.y);
 	//CCLOG("boudingbox:minX = %f,minY = %f,maxX = %f,maxY = %f", box.getMinX(), box.getMinY(), box.getMaxX(), box.getMaxY());
+	//Vec2 pos = touch->getLocation();
+	//if (!isInRange(pos.x, 0.0f, this->getContentSize().width) || !isInRange(pos.y, 0.0f, this->getContentSize().height))
+	//{
+	//	return false;
+	//}
 
 	if (!this->boundingBox().containsPoint(pos))
 	{
 		return false;
 	}
 
-	this->unschedule(AD_AUTO_MOVEPAGE_EVENT);
+	_isTouchAdPage = true;
 	_firstTouchPos = pos;
 	return true;
 }
 
 void CAdLayer::onTouchCancelled(Touch *touch, Event *unused_event)
 {
-	this->autoMovePage();
+	_isTouchAdPage = false;
 }
 
 void CAdLayer::onTouchMoved(Touch *touch, Event *unused_event)
 {
 	_preTouchPos = touch->getLocation();
-	CCLOG("_preTouchPos:x = %f,y = %f,offset = %f", _preTouchPos.x, _scrollview->getContentOffset().x);
-	
+	//CCLOG("_preTouchPos:x = %f,y = %f", _preTouchPos.x, _preTouchPos.y);
 }
 
 void CAdLayer::onTouchEnded(Touch *touch, Event *unused_event)
@@ -298,10 +317,10 @@ void CAdLayer::onTouchEnded(Touch *touch, Event *unused_event)
 	{
 		_targetPageIndex = nMovePageCount < 0 ? AD_MIN_LAYER_INDEX:_spriteItems.size();
 	}
-	
+	//moveToPage(3);
 	this->scheduleOnce(CC_SCHEDULE_SELECTOR(CAdLayer::moveToPage), 0.5f);   // 不能直接调用movetopage，因为bounce设置为了true，
 																															 // 要等一段时间后再回调，否则bounce引起的滑动会造成位置和预期不符
-	
+	_isTouchAdPage = false;
 }
 
 
@@ -316,20 +335,13 @@ void CAdLayer::moveToPage(float dx)
 	MoveTo *to = MoveTo::create(1.0f, Vec2(xPos, 0));
 	_container->runAction(to);
 	
-	Vector<FiniteTimeAction *> actions;
 	if (_curPageIndex != nPageIndex)
 	{
 		MoveTo *to = MoveTo::create(1.0f, getDotPosByIndex(nPageIndex));
-		actions.pushBack(to);
+		_curdotSprite->runAction(to);
+		//_curdotSprite->setPosition(getDotPosByIndex(_curPageIndex));
 	}
 	
-	auto onRunFinished = [&]() {
-		this->autoMovePage();
-	};
-
-	auto callback = CallFunc::create(onRunFinished);
-	actions.pushBack(callback);
-	_curdotSprite->runAction(Sequence::create(actions)); 
 	_curPageIndex = nPageIndex;
 	//CCLOG("moveto page = %d,x = %f", nPageIndex, xPos);
 }
@@ -344,12 +356,6 @@ void CAdLayer::update(float delta)
 void CAdLayer::onExit()
 {
 	this->unschedule(AD_AUTO_MOVEPAGE_EVENT);
-	DxLayer::onExit();
-}
-
-void CAdLayer::onEnter()
-{
-	DxLayer::onEnter();
 }
 
 CAdLayer::CAdLayer()
@@ -359,6 +365,7 @@ CAdLayer::CAdLayer()
 	_curPageIndex = 1;
 	_curdotSprite = nullptr;
 	_targetPageIndex = 1;
+	_isTouchAdPage = false;
 	_emoveDir = eMoveDirRight;
 }
 

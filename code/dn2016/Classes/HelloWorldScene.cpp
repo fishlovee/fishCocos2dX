@@ -1,7 +1,7 @@
 #include "HelloWorldScene.h"
 #include "cocostudio/CocoStudio.h"
 #include "ui/CocosGUI.h"
-#include "./testcode/scollview/adLayer.h"
+#include "./testcode/dxtestCases.h"
 
 USING_NS_CC;
 
@@ -55,10 +55,10 @@ bool HelloWorld::init()
 
 
 
-	m_pNormButtonWithoutSelect = Button::create("CloseNormal.png");
-	m_pNormButtonWithoutSelect->setPosition(Vec2(origin.x + m_pNormButtonWithoutSelect->getContentSize().width / 2,
-		origin.y + m_pNormButtonWithoutSelect->getContentSize().height / 2));
-	this->addChild(m_pNormButtonWithoutSelect, 1);
+	//m_pNormButtonWithoutSelect = Button::create("CloseNormal.png");
+	//m_pNormButtonWithoutSelect->setPosition(Vec2(origin.x + m_pNormButtonWithoutSelect->getContentSize().width / 2,
+	//	origin.y + m_pNormButtonWithoutSelect->getContentSize().height / 2));
+	//this->addChild(m_pNormButtonWithoutSelect, 1);
 
 
 
@@ -69,14 +69,14 @@ bool HelloWorld::init()
     // add a label shows "Hello World"
     // create and initialize a label
     
-    auto label = Label::createWithTTF("Hello World你好，世界", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24); // ttf没有定义“你好，世界”，因此label无法显示
     
     // position the label on the center of the screen
     label->setPosition(Vec2(origin.x + visibleSize.width/2,
                             origin.y + visibleSize.height - label->getContentSize().height));
 
     // add the label as a child to this layer
-    this->addChild(label, 1);
+    this->addChild(label, 1000);
 
     // add "HelloWorld" splash screen"
 	//CAdLayer *pAd = CAdLayer::create();
@@ -91,6 +91,7 @@ bool HelloWorld::init()
 	//this->addChild(ad1);
 
 	CAdLayer::run(this);
+	//OpenUrlByDefaultBrowser::run(this);
 	//this->addChild(pAd);
     //////////////////////////////
     // 1. super init first

@@ -4,7 +4,6 @@
 #include "cocos-ext.h"
 #include <vector>
 #include "testcode/testdefs.h"
-#include "dxutils.h"
 //#include <GUI/CCScrollView/CCScrollView.h>
 
 USING_NS_CC;
@@ -16,7 +15,7 @@ using namespace std;
 #define MOVE_ONEPAGE_SECOND	(2)
 
 // 将要显示的图片添加到
-class CAdLayer:public DxLayer, public ScrollViewDelegate
+class CAdLayer:public Layer, public ScrollViewDelegate
 {
 public:
 	void runCase();
@@ -30,11 +29,10 @@ public:
 protected:
 	void update(float delta);
 	void onExit();
-	void onEnter();
 	CAdLayer();
 private:
 	bool init(CCSize size);
-	void autoMovePage();
+	void autoMovePage(float dx);
 	void moveToPage(float dx);
 	Vec2 getDotPosByIndex(int nPageIndex);
 	virtual bool onTouchBegan(Touch *touch, Event *unused_event);
@@ -51,6 +49,7 @@ private:
 	cocos2d::extension::ScrollView *_scrollview;
 	int     _curPageIndex;
 	Layer *_container;
+	bool _isTouchAdPage;
 	Vec2 _firstTouchPos;
 	Vec2 _preTouchPos;
 	Sprite *_curdotSprite;

@@ -22,6 +22,9 @@
     <Filter Include="src\testcode\lotteryTurnTable">
       <UniqueIdentifier>{7bb170b7-2af3-4abc-9f72-daf9169bc4e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\testcode\urls">
+      <UniqueIdentifier>{97ce6cc0-5ef6-477a-aea2-2fc5511709ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,6 +47,18 @@
     </ClCompile>
     <ClCompile Include="..\Classes\testcode\lotteryTurnTable\lotteryTurnTable.cpp">
       <Filter>src\testcode\lotteryTurnTable</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\dxutils\DxLayer.cpp">
+      <Filter>src\dxutils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\testcode\urls\openUrlByDefaultBrowser.cpp">
+      <Filter>src\testcode\urls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\dxutils\DxButton.cpp">
+      <Filter>src\dxutils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\dxutils\DxExtern.cpp">
+      <Filter>src\dxutils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +91,24 @@
     </ClInclude>
     <ClInclude Include="..\Classes\testcode\lotteryTurnTable\lotteryTurnTable.h">
       <Filter>src\testcode\lotteryTurnTable</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\dxutils.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\dxutils\DxLayer.h">
+      <Filter>src\dxutils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\testcode\urls\openUrlByDefaultBrowser.h">
+      <Filter>src\testcode\urls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\dxutils\DxButton.h">
+      <Filter>src\dxutils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\dxutils\DxExtern.h">
+      <Filter>src\dxutils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\testcode\dxtestCases.h">
+      <Filter>src\testcode</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

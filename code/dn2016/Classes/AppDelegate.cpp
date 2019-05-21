@@ -31,7 +31,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 		glview = GLViewImpl::create(toUtf8String(DX_ZN_CODE, DX_APP_WINTITLE));
         director->setOpenGLView(glview);
     }
-
+	
     director->getOpenGLView()->setDesignResolutionSize(DX_DESIGNE_WINDOW_WIDTH, DX_DESIGNE_WINDOW_HIGHT, ResolutionPolicy::SHOW_ALL);
 
     // turn on display FPS

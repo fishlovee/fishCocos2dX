@@ -6,36 +6,48 @@
 
 USING_NS_CC;
 
-typedef std::function<bool(Touch*, Event*)> ccTouchBeganCallback;
-typedef std::function<void(Touch*, Event*)> ccTouchCallback;
+namespace DxUtils {
+	typedef std::function<bool(Touch*, Event*)> ccTouchBeganCallback;
+	typedef std::function<void(Touch*, Event*)> ccTouchCallback;
 
-enum EventTouchListenerType
-{
-	EN_WithSceneGraphPriority = 0,
-	EN_WithFixedPriority,
-};
+	enum EventTouchListenerType
+	{
+		EN_WithSceneGraphPriority = 0,
+		EN_WithFixedPriority,
+	};
 
-class DxEventUtils
-{
-public:
-	static DxEventUtils getInstance();
+	class DxEventUtils
+	{
+	public:
+		static DxEventUtils getInstance();
 
-	bool DxEventUtils::RegisterTouchEventOneByOne(
-		int priority,
-		ccTouchBeganCallback beginCall,
-		ccTouchCallback moveCall,
-		ccTouchCallback endCall,
-		ccTouchCallback cancelCall);
+		// for fixed priority£¬use ths need to remove touch event by yourself
+		bool RegisterTouchEventOneByOneWithPriority(
+			int priority,
+			ccTouchBeganCallback beginCall,
+			ccTouchCallback moveCall,
+			ccTouchCallback endCall,
+			ccTouchCallback cancelCall);
+	
+		// if you call RegisterTouchEventOneByOneWithPriority,you should call this function to remove listener when your node destory
+		void RemoveTouchEventOneByOneWithPriority(EventListener* listener);
 
-	bool RegisterTouchEventOneByOne( Node *parent,  
-		                                                                 ccTouchBeganCallback beginCall,
-		                                                                ccTouchCallback moveCall,
-		                                                                ccTouchCallback endCall,
-		                                                                ccTouchCallback cancelCall);
+		// for WithSceneGraphPriority
+		bool RegisterTouchEventOneByOne( Node *parent,  
+																			 ccTouchBeganCallback beginCall,
+																			ccTouchCallback moveCall,
+																			ccTouchCallback endCall,
+																			ccTouchCallback cancelCall);
 
-	void AddNodeToListener(EventListenerTouchOneByOne &listener, std::vector<Node *> nodes);
-protected:
-private:
-	DxEventUtils() {};
-	static DxEventUtils _instance;	
-};
+		// do nothing
+		void RemoveTouchEventOneByOne();
+
+		void AddNodeToListener(EventListenerTouchOneByOne &listener, std::vector<Node *> nodes);
+
+	protected:
+	private:
+		DxEventUtils() {};
+		static DxEventUtils _instance;	
+	};
+
+}

@@ -1,13 +1,13 @@
 #pragma once
 
 #include <cocos2d.h>
-#include "dxutils/EventManager.h"
+#include "dxutils.h"
 #include "testcode/testdefs.h"
 
 
 USING_NS_CC;
 
-class LotteryTurnTable:public Layer
+class LotteryTurnTable:public DxLayer
 {
 public:
 	LotteryTurnTable();

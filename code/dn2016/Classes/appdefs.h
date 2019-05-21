@@ -42,6 +42,7 @@ USING_NS_CC;
 
 
 // »’÷æ ‰≥ˆ
+#define DX_LV_INVALID		0
 #define DX_LV_INFO				1
 #define DX_LV_WARNNING	2
 #define DX_LV_ERROR			3
@@ -52,6 +53,25 @@ USING_NS_CC;
 #define DX_LOG_WARNNING(...)		__CCLOGWITHFUNCTION(__VA_ARGS__)
 
 #define DX_PRINT 	DX_LOG_INFO
+
+//#define DX_PRINT_LEVEL(_lv,format,...) do \
+//{\
+//	if (_lv == DX_LV_INFO)\
+//	{\
+//		DX_LOG("%s:", "DX_LV_INFO",);\
+//		DX_LOG(format, ...); \
+//	}\
+//	else if (_lv == DX_LV_WARNNING)\
+//	{\
+//		DX_LOG("%s:", "DX_LV_WARNNING");\
+//		DX_LOG(format, ...); \
+//	}\
+//	else if (_lv == DX_LV_ERROR)\
+//	{
+//		DX_LOG("%s:", "DX_LV_ERROR");\
+//		DX_LOG(format, ...); \
+//	}\
+//} while (0);
 
 
 template<typename T>

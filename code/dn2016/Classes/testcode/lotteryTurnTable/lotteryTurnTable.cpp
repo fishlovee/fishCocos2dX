@@ -1,4 +1,5 @@
 #include "lotteryTurnTable.h"
+#include "dxutils.h"
 
 
 LotteryTurnTable::LotteryTurnTable()
@@ -16,6 +17,9 @@ void LotteryTurnTable::runCase()
 
 bool LotteryTurnTable::init(CCSize size)
 {
+	do 
+	{
+	} while (0);
 	return false;
 }
 
