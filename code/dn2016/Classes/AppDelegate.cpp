@@ -29,6 +29,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     if(!glview) {
         //glview = GLViewImpl::createWithRect(toUtf8String(DX_ZN_CODE,DX_APP_WINTITLE), Rect(0, 0, 960, 640));
 		glview = GLViewImpl::create(toUtf8String(DX_ZN_CODE, DX_APP_WINTITLE));
+		glview->setFrameSize(DX_DESIGNE_WINDOW_WIDTH*0.7, DX_DESIGNE_WINDOW_HIGHT*0.7);
         director->setOpenGLView(glview);
     }
 	
@@ -42,6 +43,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     FileUtils::getInstance()->addSearchPath("res");
 	FileUtils::getInstance()->addSearchPath("res/img");
+	FileUtils::getInstance()->addSearchPath("res/ui");
+	//FileUtils::getInstance()->addSearchPath("res/img");
 
     // create a scene. it's an autorelease object
     auto scene = HelloWorld::createScene();

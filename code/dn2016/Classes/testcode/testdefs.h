@@ -9,7 +9,7 @@
 		if (t)\
 		{\
 			t->runCase();\
-			_parent->addChild(t);\
+			if (_parent) _parent->addChild(t);\
 		}\
 		else \
 		{\

@@ -55,10 +55,12 @@ bool HelloWorld::init()
 
 
 
-	//m_pNormButtonWithoutSelect = Button::create("CloseNormal.png");
-	//m_pNormButtonWithoutSelect->setPosition(Vec2(origin.x + m_pNormButtonWithoutSelect->getContentSize().width / 2,
-	//	origin.y + m_pNormButtonWithoutSelect->getContentSize().height / 2));
-	//this->addChild(m_pNormButtonWithoutSelect, 1);
+	m_pNormButtonWithoutSelect = createButtonWithOneImg("CloseNormal.png", [&](Ref *) {
+		LotteryTurnTable::run(this);
+	});
+	m_pNormButtonWithoutSelect->setPosition(Vec2(origin.x + m_pNormButtonWithoutSelect->getContentSize().width / 2,
+		origin.y + m_pNormButtonWithoutSelect->getContentSize().height / 2));
+	this->addChild(m_pNormButtonWithoutSelect, 1);
 
 
 
@@ -76,7 +78,7 @@ bool HelloWorld::init()
                             origin.y + visibleSize.height - label->getContentSize().height));
 
     // add the label as a child to this layer
-    this->addChild(label, 1000);
+    this->addChild(label);
 
     // add "HelloWorld" splash screen"
 	//CAdLayer *pAd = CAdLayer::create();
@@ -90,8 +92,9 @@ bool HelloWorld::init()
 	//ad1->setPosition(300, 300);
 	//this->addChild(ad1);
 
-	CAdLayer::run(this);
+	//CAdLayer::run(this);
 	//OpenUrlByDefaultBrowser::run(this);
+	LotteryTurnTable::run(this);
 	//this->addChild(pAd);
     //////////////////////////////
     // 1. super init first

@@ -9,19 +9,22 @@ namespace DxUtils {
 	{
 		//this->setScale(0.2);
 		Vector<FiniteTimeAction*> actions;
-		this->setAnchorPoint(Vec2::ZERO);
-		auto scale = ScaleTo::create(dx, 0.2);
-		//auto reversescale = scale->reverse();
-		this->setScale(1.0);
-		actions.pushBack(scale);
-		
-		if (removeFinishedCallback != nullptr)
+		if (_showLayerZoomEnable)
 		{
-			auto delayAction = DelayTime::create(delay);
-			actions.pushBack(delayAction);
+			this->setAnchorPoint(Vec2::ZERO);
+			auto scale = ScaleTo::create(dx, 0.2);
+			//auto reversescale = scale->reverse();
+			this->setScale(1.0);
+			actions.pushBack(scale);
 
-			auto callback = CallFunc::create(removeFinishedCallback);
-			actions.pushBack(callback);
+			if (removeFinishedCallback != nullptr)
+			{
+				auto delayAction = DelayTime::create(delay);
+				actions.pushBack(delayAction);
+
+				auto callback = CallFunc::create(removeFinishedCallback);
+				actions.pushBack(callback);
+			}
 		}
 
 		auto removeself = [&]() {

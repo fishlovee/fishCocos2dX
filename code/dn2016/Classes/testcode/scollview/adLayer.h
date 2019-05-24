@@ -28,6 +28,7 @@ public:
 
 	CREATE_TEST_FUNC(CAdLayer);
 protected:
+	void scrollViewDidScroll(cocos2d::extension::ScrollView* view);
 	void update(float delta);
 	void onExit();
 	void onEnter();

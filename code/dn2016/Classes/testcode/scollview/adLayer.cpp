@@ -8,12 +8,12 @@
 void CAdLayer::runCase()
 {
 	this->setShowLayerZoom(3.5f, 0.0f, nullptr);
-	this->enableShowLayerZoom(true);
+	this->enableShowLayerZoom(false);
 	//this->ShowLayer(); // 在此处调用和在onEnter中调用效果一样。
 
 	Vec2 orgPos = Director::getInstance()->getVisibleOrigin();
 	Size winSize = Director::getInstance()->getWinSize();
-	//this->setAnchorPoint(Vec2::ZERO);  继承于layer，设置anchor无效
+	this->setAnchorPoint(Vec2::ZERO);  
 	this->setPosition(orgPos.x + winSize.width/2,orgPos.y + 10);
 	
 	this->addItem("ad/adpic1.png");
@@ -36,17 +36,11 @@ bool CAdLayer::init(CCSize size)
 	do 
 	{
 		_container = DxLayer::create();
-		if (_container == nullptr)
-		{
-			break;
-		}
+		CC_BREAK_IF(_container == nullptr);
 
 		_scrollview = ScrollView::create(this->getContentSize(), _container);
 		//_scrollview = ScrollView::create(this->getContentSize());
-		if (_scrollview == nullptr)
-		{
-			break;
-		}
+		CC_BREAK_IF(_scrollview == nullptr);
 
 		string strDotName = "ad/ad_curpage.png";
 		_curdotSprite = Sprite::create(strDotName);
@@ -119,7 +113,7 @@ void CAdLayer::showItems()
 	_scrollview->setDirection(ScrollView::Direction::HORIZONTAL);	// 水平
 	//_scrollview->setAnchorPoint(Vec2(0, 0));
 	_scrollview->setViewSize(this->getContentSize());
-	_scrollview->setBounceable(true);										// 禁用bounce，否则拖动后会导致移动2个页面之间
+	_scrollview->setBounceable(false);										// 禁用bounce，重写父类的 void scrollViewDidScroll(ScrollView* view) 方法
 	_scrollview->setDelegate(this);
 	this->addChild(_scrollview);
 
@@ -128,7 +122,7 @@ void CAdLayer::showItems()
 	auto onMove = CC_CALLBACK_2(CAdLayer::onTouchMoved, this);
 	auto onEnd = CC_CALLBACK_2(CAdLayer::onTouchEnded, this);
 	auto onCancel = nullptr;
-	DxEventUtils::getInstance().RegisterTouchEventOneByOne(this, onBegan,onMove,onEnd, onCancel);
+	DxEvenRegister::getInstance().RegisterTouchEventOneByOne(this, onBegan,onMove,onEnd, onCancel);
 
 	//auto oneTouch = EventListenerTouchOneByOne::create();
 	//oneTouch->setSwallowTouches(true);
@@ -143,7 +137,7 @@ void CAdLayer::showItems()
 	auto cclosebuttonb = ui::Button::create("img/guanbi.png");
 	auto closeCallback = [&](Ref * ref) {
 		//this->removeFromParentAndCleanup(true);
-		this->RemoveLayer(5.0f, 2.0f, nullptr);
+		this->RemoveLayer(2.0f, 2.0f, nullptr);
 	};
 	cclosebuttonb->addClickEventListener(closeCallback);
 	cclosebuttonb->setPosition(Vec2(20, 20));
@@ -205,7 +199,7 @@ void CAdLayer::autoMovePage()
 	auto cclosebuttonb = ui::Button::create("img/guanbi.png");
 	auto closeCallback = [&](Ref * ref) {
 		//this->removeFromParentAndCleanup(true);
-		this->RemoveLayer(5.0f, 2.0f, nullptr);
+		this->RemoveLayer(2.0f, 2.0f, nullptr);
 	};
 	cclosebuttonb->addClickEventListener(closeCallback);
 	cclosebuttonb->setPosition(Vec2(20, 20));
@@ -284,8 +278,21 @@ void CAdLayer::onTouchCancelled(Touch *touch, Event *unused_event)
 void CAdLayer::onTouchMoved(Touch *touch, Event *unused_event)
 {
 	_preTouchPos = touch->getLocation();
-	CCLOG("_preTouchPos:x = %f,y = %f,offset = %f", _preTouchPos.x, _scrollview->getContentOffset().x);
-	
+	//CCLOG("_preTouchPos:x = %f,y = %f,offset = %f", _preTouchPos.x, _scrollview->getContentOffset().x);
+	//float currentX = _container->getPositionX();
+	//if (currentX > 0)
+	//{
+	//	if (currentX >= _scrollview->getContentSize().width / 3)
+	//	{
+	//		_container->setPosition(Vec2(_scrollview->getContentSize().width / 3, 0));
+	//	}
+	//}
+	//else if (currentX < _scrollview->getContentSize().width / 3 - _container->getContentSize().width)
+	//{
+	//	//_scrollview->setContentOffset(cocos2d::Vec2(_scrollview->getContentSize().width / 3 - _container->getContentSize().width, 0));
+	//	_container->setPosition(Vec2(_scrollview->getContentSize().width / 3 - _container->getContentSize().width, 0));
+	//}
+	//CCLOG("_afterTouchPos:x = %f,y = %f,offset = %f", _preTouchPos.x, _scrollview->getContentOffset().x);
 }
 
 void CAdLayer::onTouchEnded(Touch *touch, Event *unused_event)
@@ -332,6 +339,49 @@ void CAdLayer::moveToPage(float dx)
 	_curdotSprite->runAction(Sequence::create(actions)); 
 	_curPageIndex = nPageIndex;
 	//CCLOG("moveto page = %d,x = %f", nPageIndex, xPos);
+}
+
+void CAdLayer::scrollViewDidScroll(ScrollView* view)
+{
+	return;
+	//取消弹性
+	auto layout = view->getContainer();
+	float currentX = layout->getPositionX();
+
+	if (currentX > 0)
+	{
+		if (currentX < view->getContentSize().width/3)
+		{
+			view->setContentOffset(cocos2d::Vec2(currentX, 0));
+		}
+		else
+		{
+			view->setContentOffset(cocos2d::Vec2(view->getContentSize().width / 3, 0));
+		}
+	}
+
+	if (-currentX > layout->getContentSize().width - view->getViewSize().width)
+	{
+		view->setContentOffset(cocos2d::Vec2(-layout->getContentSize().width + view->getViewSize().width,0));
+	}
+
+	return;
+	auto container = view->getContainer();
+	auto x = container->getPosition().x;
+	auto width = container->getContentSize().width;
+	auto y = view->getPosition().y;
+	auto nPageCount = _spriteItems.size();
+	auto fMaxOffset = width * (nPageCount - 1.0/3);
+	if (x < -1*fMaxOffset)
+	{
+		x = fMaxOffset * -1;
+	}
+	else if (x > width/3.0f)
+	{
+		x = width / 3.0f;
+	}
+
+	view->setContentOffset(Vec2(x, y), true);
 }
 
 void CAdLayer::update(float delta)

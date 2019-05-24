@@ -30,7 +30,7 @@ USING_NS_CC;
 #endif
 
 // 窗体尺寸
-#define DX_DESIGNE_WINDOW_WIDTH 960    // 设计尺寸-宽
+#define DX_DESIGNE_WINDOW_WIDTH 1280    // 设计尺寸-宽
 #define DX_DESIGNE_WINDOW_HIGHT 720     // 设计尺寸-高 
 
 
@@ -83,3 +83,38 @@ bool isInRange(const T v, const T _min, const T _max)
 }
 
 
+// 用于cocos相关类的init函数，经常忘记在while退出前return true导致程序错误
+#define DX_SAFE_RETURN_BEGAN	do{
+#define DX_SAFE_RETURN_END	return true;}while(0);
+
+
+// 经常在CC_BREAK_IF中只写变量，但是不写 == 或 != 造成失误
+#define DX_BREAK_IF_TRUE(cond) CC_BREAK_IF((cond) == true)
+#define DX_BREAK_IF_FALSE(cond) CC_BREAK_IF((cond)  == false)
+
+#define DX_BREAK_IF_ZERO(cond) CC_BREAK_IF((cond)  == 0)
+#define DX_BREAK_IF_NOT_ZERO(cond) CC_BREAK_IF((cond)  != 0)
+
+#define DX_BREAK_IF_NULLPTR(cond) CC_BREAK_IF((cond)  == nullptr)
+#define DX_BREAK_IF_NOT_NULLPTR(cond) CC_BREAK_IF((cond)  != nullptr)
+
+
+
+// 字体
+#define DX_FONT_ARIAL  "Arial"
+#define DX_FONT_BLACK  "黑体"
+#define FONT_ARIAL_BOLD  "黑体"
+
+
+// pi
+#ifndef PI
+#define PI 3.1415926535897932385f
+#endif
+
+#ifndef DEG_RAD
+#define DEG_RAD (PI / 180)
+#endif
+
+#ifndef RAD_DEG
+#define RAD_DEG (180 / PI)
+#endif
